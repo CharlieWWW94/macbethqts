@@ -1,0 +1,28 @@
+
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark py-1 m-0">
+	  <div class="container-fluid ">
+		<a class="navbar-brand " href="{{url_for('home')}}">Macbeth QTS</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navOptions" aria-controls="navOptions" aria-expanded="false" aria-label="Toggle navigation">
+		  <span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse justify-content-end" id="navOptions">
+		  <ul class="navbar-nav ">
+			  {% if current_user.is_authenticated %}
+			  <li class="nav-item">
+			  		<a class="nav-link active" aria-current="page" href="{{url_for('load_dashboard')}}"><button class="btn btn-success px-3">Dashboard</button></a>
+				</li>
+				<li class="nav-item">
+			  		<a class="nav-link active" aria-current="page" href="{{url_for('logout')}}"><button class="btn btn-warning px-4">Log out</button></a>
+				</li>
+			  {% else %}
+				<li class="nav-item">
+			  		<a class="nav-link active" aria-current="page" href="{{url_for('register')}}"><button class="btn btn-success px-3">Register!</button></a>
+				</li>
+				<li class="nav-item">
+			  		<a class="nav-link active" aria-current="page" href="{{url_for('login')}}"><button class="btn btn-primary px-4">Log in</button></a>
+				</li>
+			  {% endif %}
+		  </ul>
+		</div>
+	  </div>
+	</nav>

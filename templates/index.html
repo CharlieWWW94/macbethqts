@@ -1,0 +1,28 @@
+{% import 'bootstrap/wtf.html' as wtf %}
+{% extends 'base.html' %}
+
+
+{% block content %}
+<link rel="stylesheet" href="static\css\styles.css">
+
+<body>
+<div class="fluid-container mb-5 mt-5">
+
+    <div class="row">
+        <div class="col-xxl-4 col-xl-3 col-sm-1"></div>
+        <div class="col-xxl-4 col-xl-6 col-sm-10 mt-3">
+            <div class="shadow-lg card bg-dark text-light">
+                <img class="shadow card-img-top" src="static/assets/img/background.png" style="height: 10rem; object-fit: cover;">
+                <div class="card-body pl-5 pr-5 text-light">
+                    <h2 class="card-title">Search Macbeth...</h2>
+                    <p>A simple tool to search for key quotations from William Shakespeare's Macbeth.</p>
+                    {{wtf.quick_form(form, novalidate="true")}}
+                </div>
+            </div>
+        </div>
+        <div class="col-xxl-4 col-xl-3 col-sm-1"></div>
+    </div>
+</div>
+</body>
+{% endblock %}
+

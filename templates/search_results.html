@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+
+
+
+{% block content %}
+
+<div class="fluid-container">
+    <div class="row">
+        <div class="col-xxl-4 col-xl-3 col-sm-1"></div>
+        <div class="col-xxl-4 col-xl-6 col-sm-10 mt-5">
+            <h1 class="text-light display-2 mx-1">Your Search Results:</h1>
+            <a href="{{url_for('select_difficulty')}}"><button type="button" class="btn btn-primary mt-3 col-12 py-3 shadow-sm">Complete Quiz</button></a>
+        <div class="bg-light shadow-lg rounded results px-3">
+
+            <br>
+            {% if saved == 1 %}
+                <div class="alert alert-success">Quotation saved to your list!</div>
+            {% elif saved == 2 %}
+                <div class="alert alert-warning">Quotation is already in your list!</div>
+            {% endif %}
+            {% for quotation in results['quotations']%}
+            <h2>{{quotation['character']}}</h2>
+        <h3>Act: {{quotation['act']}} Scene: {{quotation['scene']}}</h3>
+        <p>{{quotation['quotation']}}</p>
+        <p>{{quotation['theme_1']}} {{quotation['theme_2']}} {{quotation['theme_3']}}</p>
+        <br>
+            {% if current_user.is_authenticated %}
+                <form action="{{ url_for('display_results', results=results, id=quotation['id'])}}" method="post">
+                    <input type="submit" value="Save Quotation" class="btn btn-success">
+                </form>
+            {% endif %}
+            <br>
+            <a href="{{url_for('quick_learn', target_quotation=quotation)}}"><button class="btn btn-warning">Quick Learn</button></a>
+            <hr>
+            {% endfor %}
+            <a href="{{url_for('select_difficulty')}}"><button type="button" class="btn btn-primary mt-3 mb-1 col-12 py-3">Complete Quiz</button></a>
+        </div>
+            </div>
+    </div>
+</div>
+{% endblock %}
+

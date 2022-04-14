@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+
+
+
+{% block content %}
+<link rel="stylesheet" href="static\css\styles.css">
+<div class="fluid-container">
+    <div class="row">
+        <div class="col-xxl-4 col-xl-3 col-sm-1"></div>
+        <div class="col-xxl-4 col-xl-6 col-sm-10 mt-5">
+            <h1 class="text-light display-2 mx-1 text-center">Your Result:</h1>
+            <div class="bg-light shadow-lg rounded results px-3">
+             <br>
+              <h3 class="text-center">{{score}} / 25</h3>
+                <div class="progress my-3">
+                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{bar_percentage}}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{score * 4}}%</div>
+                </div>
+                   <a href="{{url_for('quick_learn', target_quotation=attempted_q)}}"><button type="button" class="btn btn-primary my-3 col-12 py-3 shadow-sm">Click to try again</button><a/>
+                        <br>
+                       {% for quotation in answers%}
+                       <br>
+                    <h2>{{quotation['character']}}</h2>
+                    <h3>Act: {{quotation['act']}} Scene: {{quotation['scene']}}</h3>
+                    {%if quotation['correct'] == 1 %}
+                        <div class="alert alert-success">Correct!</div>
+                        <p>{{quotation['quotation']}}</p>
+                    {% else %}
+                        <div class="alert alert-danger">Incorrect</div>
+                        <p>Your answer:</p>
+                        <p class="text-danger">{{quotation['quotation']}}</p>
+                        <br>
+                        <p>Correct answer:</p>
+                        <p class="text-success">{{quotation['correct_answer']}}</p>
+                    {% endif %}
+                    <p>{{quotation['theme_1']}} {{quotation['theme_2']}} {{quotation['theme_3']}}</p>
+                    <br>
+                    <hr>
+                {% endfor %}
+                </div>
+        <div class="col-xxl-4 col-xl-3 col-sm-1"></div>
+    </div>
+</div>
+{% endblock %}
+

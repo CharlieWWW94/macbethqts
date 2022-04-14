@@ -1,0 +1,82 @@
+{% import 'bootstrap/wtf.html' as wtf %}
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-4 col-m-11 mt-5 px-4 order-second order-lg-first">
+        <div class="shadow-lg card bg-dark text-light">
+                <img class="shadow card-img-top" src="static/assets/img/background.png" style="height: 10rem; object-fit: cover;">
+                <div class="card-body pl-5 pr-5 text-light">
+                    <h2 class="card-title">Search Macbeth...</h2>
+                    <p>Use this form to search for quotations by character, theme or location in the play. You can then complete quizzes on your search results, add quotations to your saved list, or complete Quick Learn activities.</p>
+                    {{wtf.quick_form(form, novalidate="true")}}
+                </div>
+        </div>
+        <div class="card bg-light mt-5">
+            <div class="col">
+                <div class="card-header"><h3 class="mx-5">Delete Account</h3></div>
+                    <div class="card-body">
+                        <div class="col d-grid gap-2 mx-5">
+                            <p class="card-text">Click the button below to delete your account.</p>
+                            <a href="{{url_for('delete_account')}}" class="col"><button class="btn btn-danger">Delete Account</button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="col-lg-4 col-m-12 mt-5 px-4 order-first">
+        <div class="card bg-light">
+            <div class="col">
+                <div class="card-header text-center"><span class="ml-3"><h3>{{current_user.username}}'s Dashboard</h3></span></div>
+                    <div class="card-body">
+                        <div class="col d-grid gap-2 mx-5">
+                            <p class="card-text">On this page you can find a list of your saved quotations, as well as statistics for your previous performance on quizzes and Quick Learn activities.</p>
+                        </div>
+                    </div>
+                </div>
+        </div>
+           <div class="card bg-light mt-5 shadow-lg">
+            <div class="col">
+                <div class="card-header text-center"><span class="ml-3"><h3>Quiz Statistics</h3></span></div>
+                    <div class="card-body">
+                        <div class="col d-grid gap-2 mx-5">
+                            <p>Your most recent quiz score was: {{user.q_most_recent}}%</p>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{pb_recent}}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{user.q_most_recent}}%</div>
+                            </div>
+                            <br>
+                            <p class="card-text">Your average quiz score is: {{user.q_avg}}%</p>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: {{pb_average}}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{user.q_avg}}%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div class="col px-4">
+        <div class="card bg-dark text-light mt-5 shadow-lg">
+             <div class="card-header text-center"><span class="ml-3"><h3>Saved Quotations</h3></span></div>
+            <div class="d-grid">
+            <a href="{{url_for('select_difficulty')}}"><button type="button" class="btn btn-primary mt-5 py-3 col-12"><h5>Generate Quiz</h5></button></a>
+                </div>
+             <div class="card-body bg-light text-dark">
+                {% for quotation in dash_qts['quotations']%}
+                    <h2>{{quotation['character']}}</h2>
+                    <h3>Act: {{quotation['act']}} Scene: {{quotation['scene']}}</h3>
+                    <p>{{quotation['quotation']}}</p>
+                    <p>{{quotation['theme_1']}} {{quotation['theme_2']}} {{quotation['theme_3']}}</p>
+                    <br>
+                 <div class="row">
+                    <a href="{{url_for('quick_learn', target_quotation=quotation)}}" class="col"><button class="btn btn-warning">Quick Learn</button></a>
+                    <form class="col" action="{{ url_for('load_dashboard',to_remove=quotation['id'])}}" method="post">
+                        <input type="submit" value="Remove" class="btn btn-danger px-4">
+                    </form>
+                 </div>
+                    <hr>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+
+
+
+{% block content %}
+<link rel="stylesheet" href="static\css\styles.css">
+<div class="fluid-container">
+    <div class="row">
+        <div class="col-xxl-4 col-xl-3 col-sm-1"></div>
+        <div class="col-xxl-4 col-xl-6 col-sm-10 mt-5 ">
+        <h1 class="text-light display-2 mx-1">Quick Learn...</h1>
+        <div class="bg-light shadow-lg rounded results p-3" >
+            <h4 class="mx-1">Attempt: {{attempt_tally}}/25</h4>
+            {% if not answer_result %}
+                <div class="alert alert-warning">Complete the gaps as they appear!</div>
+            {% elif answer_result == 2 %}
+                <div class="alert alert-success">Correct!</div>
+            {% elif answer_result == 1 %}
+                <div class="alert alert-danger">Incorrect!</div>
+
+            {% endif %}
+            <hr>
+            <br>
+            <h2>{{quotation['quotations'][0]['character']}}</h2>
+        <h3>Act {{quotation['quotations'][0]['act']}} Scene {{quotation['quotations'][0]['scene']}}</h3>
+            <br>
+            <form id="quick_learn_form" action="{{ url_for('quick_learn', target_quotation= original_quotation, attempt_tally=attempt_tally +1, old_target=quotation) }}" method="post">
+        {% for word in quotation['quotations'][0]['quotation'] %}
+            {% if word != 'X' %}
+            {{word}}
+            {% else %}
+            <input type="text" autofocus="autofocus" class="form-control-sm col-xs-1 mx-1" name="gap">
+            {% endif %}
+
+            {% endfor %}
+                 <br>
+        <br>
+                <input class="btn btn-primary" type="submit" value="Submit" id="submit_attempt">
+           </form>
+            <hr>
+        </div>
+        </div>
+            </div>
+    </div>
+</div>
+{% endblock %}
+

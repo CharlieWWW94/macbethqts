@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col"></div>
+    <div class="col-lg-4 col-md-8 col-sm-6 mt-5">
+        <div class="card bg-light shadow-lg">
+            <div class="col">
+            <div class="card-header text-center"><span class="ml-3"><h3>Create Account</h3></span></div>
+            <div class="card-body">
+                                <div class="col d-grid gap-2 mx-5">
+                                <form action="{{url_for('register')}}" method="post">
+                                    <img class="img-fluid" src="static/assets/img/register.svg">
+                                    {% if error %}
+                                            <div class="alert alert-warning">{{ error }}</div>
+                                    {% endif %}
+                                    <input class="col-12 mt-2 form-control" title="Security" type="text" name="username" placeholder="Create Username" required="required"/>
+                                    <input class="col-12 mt-2 form-control" type="password" name="password" placeholder="Create Password" required="required"/>
+                                    <p class="text-center my-2">Already have an account? <a class="text-primary">Log in here</a></p>
+                                    <button type="submit" class="btn btn-success col-12 mt-2" data-bs-toggle="popover" title="Security" data-bs-content="Your details will be hashed and salted for security, but please don't use any personal or sensitive information for your login details">Register</button>
+                                </form>
+                            </div>
+            </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col"></div>
+</div>
+{% endblock %}

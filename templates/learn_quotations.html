@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="static\css\styles.css">
+<div class="fluid-container">
+    <div class="row">
+        <div class="col-xxl-4 col-xl-3 col-sm-1"></div>
+        <div class="col-xxl-4 col-xl-6 col-sm-10 mt-5">
+            <h1 class="text-light display-2">Your Quiz:</h1>
+            <div class="p-2 bg-light shadow-lg rounded results">
+                <form id="missing_word p-3" action="{{ url_for('learn_quotations', difficulty=difficulty, quotations=quotations) }}" method="post">
+                    {% set x_index = namespace(value=0) %}
+                    {% for number in range(quotations['quotations']|length) %}
+                        <h3>{{number + 1}}</h3>
+                    <h2>{{quotations['quotations'][number]['character']}}</h2>
+                    <h3>Act {{quotations['quotations'][number]['act']}} Scene {{quotations['quotations'][number]['scene']}}</h3>
+                        {% for word in quotations['quotations'][number]['quotation'] %}
+                            {% if word != 'X' %}
+                                <span>{{word}}</span>
+                            {% else %}
+                                <input type="text" class="form-control-sm col-xs-1 mx-1 mt-1" name="{{x_index.value}}">
+                                {% set x_index.value = x_index.value + 1 %}
+                            {% endif %}
+                        {% endfor %}
+                        <br>
+                        <hr>
+                    {% endfor %}
+                <input class="btn btn-primary col-12" type="submit" value="Submit" id="submit_attempt">
+                </form>
+            </div>
+        </div>
+        <div class="col-xxl-4 col-xl-3 col-sm-1"></div>
+{% endblock %}
