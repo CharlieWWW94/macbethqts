@@ -1,6 +1,8 @@
 # macbethqts
 A web app that allows users to search my API for quotations from the play Macbeth and also practise these quotations by completing gap fill exercises of varying difficulty (easy, medium, hard). Built using Python, Flask, CSS, HTML, Jinja and Bootstrap.
 
+For more detailed commits that narrate the progression of this project, see my macbeth_webpage repository. There was an issue with the venv on that previous iteration, so I created this new repository.
+
 Try out the app here:
 
 http://macbethqts.herokuapp.com/
