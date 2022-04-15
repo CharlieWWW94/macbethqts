@@ -273,17 +273,18 @@ def learn_quotations(difficulty):
                 gap_to_fill = entry['quotation'].index('X')
                 entry['quotation'][gap_to_fill] = request_info[str(index)]
                 index += 1
+        session["quotations_to_learn"] = quotations_to_learn
+        session["submitted_answers"] = quotations_from_page["quotations"]
 
-        return redirect(url_for("quiz_results", submitted_answers=quotations_from_page["quotations"],
-                                quotations_to_learn=quotations_to_learn, difficulty=difficulty))
+        return redirect(url_for("quiz_results", difficulty=difficulty))
 
     return render_template("learn_quotations.html", difficulty=difficulty, quotations=quotations_to_complete, space=" ")
 
 
-@app.route("/quiz_results/<submitted_answers>/<quotations_to_learn>/<difficulty>", methods=["GET", "POST"])
-def quiz_results(submitted_answers, quotations_to_learn, difficulty):
-    submitted_answers_list = ast.literal_eval(submitted_answers)
-    quotations_to_learn_list = ast.literal_eval(quotations_to_learn)
+@app.route("/quiz_results/<difficulty>", methods=["GET", "POST"])
+def quiz_results(difficulty):
+    submitted_answers_list = session.get("submitted_answers")
+    quotations_to_learn_list = session.get("quotations_to_learn")
 
     if type(submitted_answers_list) != list:
         submitted_answers_list = [submitted_answers_list]
@@ -321,7 +322,7 @@ def quiz_results(submitted_answers, quotations_to_learn, difficulty):
         user_to_update.q_avg = running_avg
         db.session.commit()
 
-    return render_template("quiz_results.html", answers=submitted_answers_list, to_learn=quotations_to_learn,
+    return render_template("quiz_results.html", answers=submitted_answers_list, to_learn=quotations_to_learn_list,
                            difficulty=difficulty, percentage=percentage_score, pb=pb_calc(percentage_score))
 
 
