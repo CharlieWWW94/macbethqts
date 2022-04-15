@@ -181,8 +181,6 @@ def load_dashboard():
 def display_results(results):
     if request.method == "POST":
         save_request = request.values.to_dict()
-        print('This is the save request:')
-        print(save_request)
         if 'id' in save_request:
             saved_q_query = SavedQuotations.query.filter_by(db_q_id=save_request['id']).all()
             duplicate_check = [saved_q for saved_q in saved_q_query if saved_q.user_id == current_user.id]
@@ -202,17 +200,17 @@ def display_results(results):
 @app.route("/quick_learn/<target_quotation>", methods=["GET", "POST"])
 def quick_learn(target_quotation, attempt_tally=1):
     if request.method == "POST":
-        # this is all submitted info minus the target quotation
-
         quick_request_info = request.values.to_dict()
         new_tally = int(quick_request_info['attempt_tally'])
         if new_tally == 2:
             session["ql_score"] = 0
-        if new_tally == 25:
+        elif new_tally == 25:
             return redirect(url_for("quick_learn_result", target_quotation=target_quotation))
 
         # This is the complete quotation to verify answer again. Type: list
-        qf_dict_list = [ast.literal_eval(target_quotation)]
+        qf_dict_list = ast.literal_eval(target_quotation)
+        if type(qf_dict_list) != list:
+            qf_dict_list = [ast.literal_eval(target_quotation)]
 
         # This is the quotation with Xs in it to replace with the submission
         qf_to_complete = ast.literal_eval(quick_request_info['old_target'])
