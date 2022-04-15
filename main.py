@@ -131,6 +131,7 @@ def logout():
 @app.route("/delete")
 def delete_account():
     User.query.filter_by(username=current_user.username).delete()
+    SavedQuotations.query.filter_by(user_id=current_user.id).delete()
     db.session.commit()
     return redirect(url_for('logout'))
 
@@ -180,6 +181,8 @@ def load_dashboard():
 def display_results(results):
     if request.method == "POST":
         save_request = request.values.to_dict()
+        print('This is the save request:')
+        print(save_request)
         if 'id' in save_request:
             saved_q_query = SavedQuotations.query.filter_by(db_q_id=save_request['id']).all()
             duplicate_check = [saved_q for saved_q in saved_q_query if saved_q.user_id == current_user.id]
